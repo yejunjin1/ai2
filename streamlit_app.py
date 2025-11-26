@@ -45,7 +45,7 @@ if "last_prediction" not in st.session_state:
 # ======================
 # 모델 로드
 # ======================
-FILE_ID = st.secrets.get("GDRIVE_FILE_ID", "11Qse2No3JsDkr5Eu3zdRIxWz-n1x_UMv")
+FILE_ID = st.secrets.get("GDRIVE_FILE_ID", "1uj2lD8goJDLo9uSg_8HcT4bxnl2trPc8")
 MODEL_PATH = st.secrets.get("MODEL_PATH", "model.pkl")
 
 @st.cache_resource
@@ -74,61 +74,12 @@ CONTENT_BY_LABEL: dict[str, dict[str, list[str]]] = {
     #   "images": ["https://.../jjampong1.jpg", "https://.../jjampong2.jpg"],
     #   "videos": ["https://youtu.be/XXXXXXXXXXX"]
     # },
-labels[0] : {"texts" : ["중국식 냉면은 맛있어"], "images" : ["https://www.unileverfoodsolutions.co.kr/dam/global-ufs/mcos/south-korea/calcmenu/recipes/kr-recipes/chinese/header/%EC%A4%91%EA%B5%AD%EB%83%89%EB%A9%B4-chinese-cold-noodles-header-1260x709px.jpg"]},
-labels[1] : {"texts" : ["짜장면은 맛있어"], "images" : ["https://m.health.chosun.com/site/data/img_dir/2024/08/02/2024080201848_0.jpg"]},
+labels[0] : {"texts" : ["중국식 냉면은 맛있어"], "images" : ["https://www.esquirekorea.co.kr/resources_old/online/org_online_image/eq/71c93efd-352d-4fb4-8a98-dd1b51475442.jpg"]},
+labels[1] : {"texts" : ["짜짱면은 맛있어"], "images" : ["https://m.health.chosun.com/site/data/img_dir/2024/08/02/2024080201848_0.jpg"]},
 labels[2] : {"texts" : ["짬뽕은 맛있어"], "images" : ["https://i.namu.wiki/i/upNZ7cYsFsAfU0KcguO6OHMK68xC-Bj8EXxdCti61Jhjx10UCBgdK5bZCEx41-aAWcjWZ5JMKFUSaUGLC1tqWg.webp"]},
-labels[3] : {"texts" : ["탕수육은 맛있어"], "images" : ["https://i.namu.wiki/i/upNZ7cYsFsAfU0KcguO6OHMK68xC-Bj8EXxdCti61Jhjx10UCBgdK5bZCEx41-aAWcjWZ5JMKFUSaUGLC1tqWg.webp"]},
-
-</style>
-""", unsafe_allow_html=True)
-
-st.title("이미지 분류기 (Fastai) — 확률 막대 + 라벨별 고정 콘텐츠")
-
+labels[3] : {"texts" : ["탕수육은 맛있"], "images" : ["https://homecuisine.co.kr/files/attach/images/142/737/002/969e9f7dc60d42510c5c0353a58ba701.JPG"]},
 # ======================
-# 세션 상태
-# ======================
-if "img_bytes" not in st.session_state:
-    st.session_state.img_bytes = None
-if "last_prediction" not in st.session_state:
-    st.session_state.last_prediction = None
-
-# ======================
-# 모델 로드
-# ======================
-FILE_ID = st.secrets.get("GDRIVE_FILE_ID", "11Qse2No3JsDkr5Eu3zdRIxWz-n1x_UMv")
-MODEL_PATH = st.secrets.get("MODEL_PATH", "model.pkl")
-
-@st.cache_resource
-def load_model_from_drive(file_id: str, output_path: str):
-    if not os.path.exists(output_path):
-        url = f"https://drive.google.com/uc?id={file_id}"
-        gdown.download(url, output_path, quiet=False)
-    return load_learner(output_path, cpu=True)
-
-with st.spinner("🤖 모델 로드 중..."):
-    learner = load_model_from_drive(FILE_ID, MODEL_PATH)
-st.success("✅ 모델 로드 완료")
-
-labels = [str(x) for x in learner.dls.vocab]
-st.write(f"**분류 가능한 항목:** `{', '.join(labels)}`")
-st.markdown("---")
-
-# ======================
-# 라벨 이름 매핑: 여기를 채우세요!
-# 각 라벨당 최대 3개씩 표시됩니다.
-# ======================
-CONTENT_BY_LABEL: dict[str, dict[str, list[str]]] = {
-    # 예)
-    # "짬뽕": {
-    #   "texts": ["짬뽕의 특징과 유래", "국물 맛 포인트", "지역별 스타일 차이"],
-    #   "images": ["https://.../jjampong1.jpg", "https://.../jjampong2.jpg"],
-    #   "videos": ["https://youtu.be/XXXXXXXXXXX"]
-    # },
-}
-label[0] : {"texts" : ["중국식 냉면은 맛있어"], "images" : [""]}.
-label[1] : {"texts" : ["짜장면은 맛있어"], "images" : [""]}.
-label[2] : {"texts" : ["짬뽕은 맛있어"], "images" : [""]}.
-label[3] : {"texts" : ["탕수육은 맛있어"], "images" : [""]}.
+# 유틸
 # ======================
 def load_pil_from_bytes(b: bytes) -> Image.Image:
     pil = Image.open(BytesIO(b))
